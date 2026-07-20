@@ -79,3 +79,6 @@ user_input = {
     'Regionname': input("Region name (e.g. Northern Metropolitan): "),
     'Type': input("Type (h/u/t): ")
 }
+#  9: Showing result 
+predicted_price = predict_price(user_input, rf, X.columns)
+print(f"\n💰 Predicted Price: ${predicted_price:,.0f}")
