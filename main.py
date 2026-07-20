@@ -47,3 +47,9 @@ X = df.drop(target, axis=1)
 y = df[target]
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+#  6: Training model 
+rf = RandomForestRegressor(n_estimators=100, random_state=42)
+rf.fit(X_train, y_train)
+
+print("✅ Model training complete!")
