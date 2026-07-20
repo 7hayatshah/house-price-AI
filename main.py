@@ -17,4 +17,13 @@ if not os.path.exists(CSV_PATH):
 df = pd.read_csv(CSV_PATH)
 df.columns = df.columns.str.strip()
 
+#  3: Selecting columns 
+features = ['Rooms', 'Distance', 'Bathroom', 'Car', 'Landsize',
+            'BuildingArea', 'YearBuilt', 'Regionname',
+            'Type', 'Propertycount']
+target = 'Price'
+
+df = df[features + [target]]
+df = df.dropna(subset=[target])
+
 print("✅ Data loaded successfully!")
