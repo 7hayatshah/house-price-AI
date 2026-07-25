@@ -142,4 +142,87 @@ st.divider()
         st.metric(
             "🌲 Random Forest",
             f"${rf_prediction:,.0f}",
+
+
+
+
+            st.divider()
+    st.subheader("🔎 Model Explanation")
+
+    explain1, explain2 = st.columns(2)
+
+    with explain1:
+
+        st.markdown("### Linear Regression")
+
+        lr_input_df = build_input_df(input_dict, lr_columns)
+
+        contributions = (
+            lr_input_df.iloc[0].values * lr.coef_
+        )
+
+        contribution = pd.Series(
+            contributions,
+            index=lr_columns,
+        )
+
+        contribution = contribution.reindex(
+            contribution.abs().sort_values(
+                ascending=False
+            ).index
+        ).head(10)
+
+        fig, ax = plt.subplots(figsize=(6,5))
+
+        colors = [
+            "green" if x > 0 else "red"
+            for x in contribution.values
+        ]
+
+        ax.barh(
+            contribution.index[::-1],
+            contribution.values[::-1],
+            color=colors[::-1],
+        )
+
+        st.pyplot(fig)
+
+    with explain2:
+
+        st.markdown("### Random Forest (SHAP)")
+
+        rf_input_df = build_input_df(
+            input_dict,
+            rf_columns,
+        )
+
+        shap_values = rf_explainer.shap_values(
+            rf_input_df
+        )
+
+        shap_series = pd.Series(
+            shap_values[0],
+            index=rf_columns,
+        )
+
+        shap_series = shap_series.reindex(
+            shap_series.abs().sort_values(
+                ascending=False
+            ).index
+        ).head(10)
+
+        fig2, ax2 = plt.subplots(figsize=(6,5))
+
+        colors = [
+            "green" if x > 0 else "red"
+            for x in shap_series.values
+        ]
+
+        ax2.barh(
+            shap_series.index[::-1],
+            shap_series.values[::-1],
+            color=colors[::-1],
+        )
+
+        st.pyplot(fig2)
         )
