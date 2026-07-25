@@ -226,3 +226,9 @@ st.divider()
 
         st.pyplot(fig2)
         )
+
+        base_value = rf_explainer.expected_value
+        if isinstance(base_value, np.ndarray):
+            base_value = base_value.item() if base_value.size == 1 else base_value[0]
+
+        st.caption(f"Base value (average prediction): ${base_value:,.0f}")
