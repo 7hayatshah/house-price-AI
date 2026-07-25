@@ -101,9 +101,7 @@ with col2:
 st.divider()
 
 
-def predict_price(input_dict, model, reference_columns):
-    input_df = build_input_df(input_dict, reference_columns)
-    return model.predict(input_df)[0
+
 
     if st.button("🔍 Predict Price", use_container_width=True):
 
