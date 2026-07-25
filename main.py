@@ -129,3 +129,25 @@ def predict_price(input_dict, model, reference_columns):
     prediction = model.predict(input_df)[0]
 
     return prediction
+    print("\nEnter house details:")
+
+user_input = {
+    'Rooms': int(input("Rooms: ")),
+    'Distance': float(input("Distance from CBD (km): ")),
+    'Bathroom': int(input("Bathrooms: ")),
+    'Car': int(input("Car spots: ")),
+    'Landsize': float(input("Landsize (sqm): ")),
+    'BuildingArea': float(input("Building Area (sqm): ")),
+    'YearBuilt': int(input("Year Built: ")),
+    'Propertycount': int(input("Property count in suburb: ")),
+    'Regionname': input("Region name (e.g. Northern Metropolitan): "),
+    'Type': input("Type (h/u/t): ")
+}
+
+predicted_price = predict_price(
+    user_input,
+    rf,
+    X.columns
+)
+
+print(f"\n💰 Predicted Price: ${predicted_price:,.0f}")
