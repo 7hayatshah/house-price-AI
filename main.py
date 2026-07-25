@@ -16,3 +16,50 @@ df = pd.read_csv(CSV_PATH)
 df.columns = df.columns.str.strip()
 
 print("✅ Data loaded successfully!")
+
+# Selecting columns
+
+features = [
+    'Rooms',
+    'Distance',
+    'Bathroom',
+    'Car',
+    'Landsize',
+    'BuildingArea',
+    'YearBuilt',
+    'Regionname',
+    'Type',
+    'Propertycount'
+]
+
+target = 'Price'
+
+df = df[features + [target]]
+df = df.dropna(subset=[target])
+
+# Cleaning data
+
+numeric_cols = [
+    'Rooms',
+    'Distance',
+    'Bathroom',
+    'Car',
+    'Landsize',
+    'BuildingArea',
+    'YearBuilt',
+    'Propertycount'
+]
+
+for col in numeric_cols:
+    df[col] = df[col].fillna(df[col].median())
+
+df['Regionname'] = df['Regionname'].fillna(df['Regionname'].mode()[0])
+df['Type'] = df['Type'].fillna(df['Type'].mode()[0])
+
+df = pd.get_dummies(
+    df,
+    columns=['Regionname', 'Type'],
+    drop_first=True
+)
+
+print("✅ Data cleaned!")
