@@ -40,6 +40,66 @@ def build_input_df(input_dict, reference_columns):
 
     return input_df[reference_columns]
 
+with st.sidebar:
+
+    st.header("📈 Model Performance")
+
+    st.subheader("Linear Regression")
+    st.write(f"RMSE: ${lr_metrics.get('rmse',0):,.0f}")
+    st.write(f"MAE: ${lr_metrics.get('mae',0):,.0f}")
+    st.write(f"R²: {lr_metrics.get('r2',0):.3f}")
+
+    st.subheader("Random Forest")
+    st.write(f"RMSE: ${rf_metrics.get('rmse',0):,.0f}")
+    st.write(f"MAE: ${rf_metrics.get('mae',0):,.0f}")
+    st.write(f"R²: {rf_metrics.get('r2',0):.3f}")
+
+st.title("🏠 Melbourne House Price Predictor")
+
+st.write(
+    "Enter house details below to predict the house price."
+)
+
+col1, col2 = st.columns(2)
+
+with col1:
+    rooms = st.number_input("Rooms", 1, 10, 3)
+    distance = st.number_input("Distance", 0.0, value=10.0)
+    bathroom = st.number_input("Bathrooms", 1, 5, 2)
+    car = st.number_input("Car Spots", 0, 5, 1)
+    landsize = st.number_input("Landsize", 0.0, value=450.0)
+
+with col2:
+    building_area = st.number_input("Building Area", 0.0, value=150.0)
+    year_built = st.number_input("Year Built", 1900, 2024, 2005)
+    propertycount = st.number_input("Property Count", 0, value=4000)
+
+    regionname = st.selectbox(
+        "Region",
+        [
+            "Northern Metropolitan",
+            "Southern Metropolitan",
+            "Western Metropolitan",
+            "Eastern Metropolitan",
+            "South-Eastern Metropolitan",
+            "Northern Victoria",
+            "Eastern Victoria",
+            "Western Victoria",
+        ],
+    )
+
+    type_options = {
+        "House": "h",
+        "Unit/Apartment": "u",
+        "Townhouse": "t",
+    }
+
+    house_type = type_options[
+        st.selectbox("Property Type", list(type_options.keys()))
+    ]
+
+st.divider()
+
 
 def predict_price(input_dict, model, reference_columns):
     input_df = build_input_df(input_dict, reference_columns)
