@@ -104,3 +104,44 @@ st.divider()
 def predict_price(input_dict, model, reference_columns):
     input_df = build_input_df(input_dict, reference_columns)
     return model.predict(input_df)[0
+
+    if st.button("🔍 Predict Price", use_container_width=True):
+
+    input_dict = {
+        "Rooms": rooms,
+        "Distance": distance,
+        "Bathroom": bathroom,
+        "Car": car,
+        "Landsize": landsize,
+        "BuildingArea": building_area,
+        "YearBuilt": year_built,
+        "Propertycount": propertycount,
+        "Regionname": regionname,
+        "Type": house_type,
+    }
+
+    lr_prediction = predict_price(
+        input_dict,
+        lr,
+        lr_columns,
+    )
+
+    rf_prediction = predict_price(
+        input_dict,
+        rf,
+        rf_columns,
+    )
+
+    c1, c2 = st.columns(2)
+
+    with c1:
+        st.metric(
+            "📊 Linear Regression",
+            f"${lr_prediction:,.0f}",
+        )
+
+    with c2:
+        st.metric(
+            "🌲 Random Forest",
+            f"${rf_prediction:,.0f}",
+        )
