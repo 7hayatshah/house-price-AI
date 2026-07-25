@@ -109,3 +109,23 @@ rf = RandomForestRegressor(
 rf.fit(X_train, y_train)
 
 print("✅ Model training complete!")
+
+def predict_price(input_dict, model, reference_columns):
+
+    input_df = pd.DataFrame([input_dict])
+
+    input_df = pd.get_dummies(
+        input_df,
+        columns=['Regionname', 'Type'],
+        drop_first=True
+    )
+
+    for col in reference_columns:
+        if col not in input_df.columns:
+            input_df[col] = 0
+
+    input_df = input_df[reference_columns]
+
+    prediction = model.predict(input_df)[0]
+
+    return prediction
